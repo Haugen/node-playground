@@ -9,18 +9,22 @@
   <div class="alert alert-success">Well done! New account created.</div>
 {{/if}}
 
-<form action="/submit" method="post">
+{{#each items}}
+  <div class="alert alert-info">{{ this.task }}{{ this.prio }}</div>
+{{/each}}
+
+<form action="/insert" method="post">
   <div class="input form-group">
-    <label for="email">E-mail</label>
-    <input class="form-control" type="text" name="email" id="email">
+    <label for="email">Task</label>
+    <input class="form-control" type="text" name="task" id="task">
   </div>
-  <div class="input form-group">
-    <label for="password">Password</label>
-    <input class="form-control" type="password" name="password" id="password">
-  </div>
-  <div class="input form-group">
-    <label for="confirmPassword">Confirm password</label>
-    <input class="form-control" type="password" name="confirmPassword" id="confirmPassword">
+  <div class="form-group">
+    <label for="prio">Prio</label>
+    <select class="form-control" name="prio" id="prio">
+      <option>Low</option>
+      <option>Medium</option>
+      <option>High</option>
+    </select>
   </div>
   <button class="btn btn-primary" type="submit">Submit</button>
 </form>
