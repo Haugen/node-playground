@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var mongo = require('mongodb');
+var mongo = require('mongodb').MongoClient;
+var objectId = require('mongodb').ObjectID;
 var assert = require('assert');
 
 var dbUrl = 'mongodb://localhost:27017/test';
@@ -60,32 +61,36 @@ router.post('/insert', function(req, res, next) {
   }
 });
 
-// Updating data.
-router.post('/update', function(req, res, next) {
+// GET page for Updating data.
+router.get('/update/:id', function(req, res, next) {
+  let id = req.params.id;
+  let result = {};
+
+  mongo.connect(dbUrl, function(err, client) {
+    assert.equal(null, err);
+    let db = client.db('test');
+    let item = db.collection('tasks').find(objectId(id));
+    // TODO Don't use forEach here, it will always be only one object. Figure
+    // out how to get the data from item properly.
+    item.forEach(function(doc, err) {
+      assert.equal(null, err);
+      result = doc;
+    }, function() {
+      res.render('update', {
+        item: result,
+      });
+    })
+  });
+});
+
+// POST page for updating the item in the db.
+router.post('/update/:id', function(req, res, next) {
 
 });
 
 // Deleting data.
 router.post('/delete', function(req, res, next) {
 
-});
-
-/* Old POST for the homepage. Practice with a submitted form. */
-router.post('/old-submit', function(req, res, next) {
-  req.check('email', 'Incorrect e-mail address.').isEmail();
-  req.check('password', 'Try again with password, caballero!')
-    .isLength({min: 4})
-    .equals(req.body.confirmPassword);
-
-  let errors = req.validationErrors();
-  console.log(errors);
-  if (errors) {
-    req.session.errors = errors;
-    req.session.success = false;
-  } else {
-    req.session.success = true;
-  }
-  res.redirect('/')
 });
 
 module.exports = router;

@@ -1,4 +1,3 @@
-<a href="/" class="small muted">HOME</a>
 <h1>{{ title }}</h1>
 
 {{#each errors}}
@@ -10,7 +9,13 @@
 {{/if}}
 
 {{#each items}}
-  <div class="alert alert-info">{{ this.task }}{{ this.prio }}</div>
+  <div class="card">
+    <div class="card-body">
+      {{ this.task }}
+      {{ this.prio }}
+      <a href="/update/{{ this._id }}"><button class="btn btn-primary">Update</button></a>
+    </div>
+  </div>
 {{/each}}
 
 <form action="/insert" method="post">
