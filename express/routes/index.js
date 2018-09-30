@@ -5,14 +5,28 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.render('index', {
     title: 'Validation and sessions',
-    success: false,
-    errors: req.session.errors
+    success: req.session.success,
+    errors: req.session.errors,
+    success: req.session.success
   });
-  //req.sessions.errors = null;
+  req.session.errors = req.session.success = null;
 });
 
 router.post('/submit', function(req, res, next) {
+  req.check('email', 'Incorrect e-mail address.').isEmail();
+  req.check('password', 'Try again with password, caballero!')
+    .isLength({min: 4})
+    .equals(req.body.confirmPassword);
 
+  let errors = req.validationErrors();
+  console.log(errors);
+  if (errors) {
+    req.session.errors = errors;
+    req.session.success = false;
+  } else {
+    req.session.success = true;
+  }
+  res.redirect('/')
 });
 
 /* GET users listing. */

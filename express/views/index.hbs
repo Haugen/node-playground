@@ -1,5 +1,15 @@
+<a href="/" class="small muted">HOME</a>
 <h1>{{ title }}</h1>
-<form action="/test/submit" method="post">
+
+{{#each errors}}
+  <div class="alert alert-danger">{{ this.msg }}</div>
+{{/each}}
+
+{{#if success}}
+  <div class="alert alert-success">Well done! New account created.</div>
+{{/if}}
+
+<form action="/submit" method="post">
   <div class="input form-group">
     <label for="email">E-mail</label>
     <input class="form-control" type="text" name="email" id="email">
