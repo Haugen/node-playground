@@ -9,7 +9,7 @@
 
 <h2>ToDo</h2>
 {{#each uncompleted}}
-  <div class="card">
+  <div class="card mb-3 prio-{{ this.prio }}">
     <div class="card-body">
       {{ this.task }}
       {{ this.prio }}
@@ -26,7 +26,7 @@
 
 <h2>Completed</h2>
 {{#each completed}}
-  <div class="card">
+  <div class="card mb-3 prio-{{ this.prio }}">
     <div class="card-body">
       {{ this.task }}
       {{ this.prio }}
