@@ -16,10 +16,12 @@ var taskData = mongoose.model('taskData', taskDataSchema);
 router.get('/', function(req, res, next) {
   taskData.find().then(function(doc) {
     res.render('index', {
+      title: 'TODOlodelo',
       items: doc,
-      errors: req.session.error
+      errors: req.session.error,
+      success: req.session.success
     });
-    req.session.error = null;
+    req.session.error = req.session.success = null;
   });
 });
 
@@ -41,7 +43,7 @@ router.post('/insert', function(req, res, next) {
 // GET page for Updating data.
 router.get('/update/:id', function(req, res, next) {
   let id = req.params.id;
-  let task = taskData.findById(id, function(err, doc) {
+  taskData.findById(id, function(err, doc) {
     if (err) {
       // TODO Figure out how to handle session errors more dynamically.
       req.session.error = { error: {msg: err.message} };
@@ -59,11 +61,30 @@ router.post('/update/:id', function(req, res, next) {
     task: req.body.task,
     prio: req.body.prio
   }
+
+  taskData.findById(id, function(err, doc) {
+    if (err) {
+      // TODO Figure out how to handle session errors more dynamically.
+      req.session.error = { error: {msg: err.message} };
+      res.redirect('/');
+    } else {
+      doc.task = req.body.task;
+      doc.prio = req.body.prio;
+      doc.save();
+      req.session.success = { success: {msg: `Task with id: ${id} updated.`} };
+      res.redirect('/');
+    }
+  })
 });
 
 // Deleting data.
 router.post('/delete/:id', function(req, res, next) {
   let id = req.params.id;
+
+  taskData.findByIdAndRemove(id, function(err) {
+    if (err) req.session.error = { error: {msg: err.message} };
+    res.redirect('/');
+  })
 });
 
 module.exports = router;
