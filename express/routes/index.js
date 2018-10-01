@@ -5,19 +5,25 @@ mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true });
 
 var taskDataSchema = new mongoose.Schema({
   task: {type: String, required: true},
-  prio: String
+  prio: String,
+  completed: Boolean
 }, {
   collection: 'tasks'
 });
 
 var taskData = mongoose.model('taskData', taskDataSchema);
 
-// GET home page.
+/**
+ * GET the home page where we list all the tasks.
+ */
 router.get('/', function(req, res, next) {
-  taskData.find().then(function(doc) {
+  Promise.all([
+    taskData.find({ completed: false }),
+    taskData.find({ completed: true })
+  ]).then(function([ uncompleted, completed ]) {
     res.render('index', {
-      title: 'TODOlodelo',
-      items: doc,
+      completed: completed,
+      uncompleted: uncompleted,
       errors: req.session.error,
       success: req.session.success
     });
@@ -25,11 +31,14 @@ router.get('/', function(req, res, next) {
   });
 });
 
-// Inserting data.
+/**
+ * POST page for inserting a new task.
+ */
 router.post('/insert', function(req, res, next) {
   let item = {
     task: req.body.task,
-    prio: req.body.prio
+    prio: req.body.prio,
+    completed: false
   };
 
   let data = new taskData(item);
@@ -40,7 +49,9 @@ router.post('/insert', function(req, res, next) {
   });
 });
 
-// GET page for Updating data.
+/**
+ * GET page for updating a task. Render a form prefilled with the task.
+ */
 router.get('/update/:id', function(req, res, next) {
   let id = req.params.id;
   taskData.findById(id, function(err, doc) {
@@ -55,7 +66,9 @@ router.get('/update/:id', function(req, res, next) {
   });
 });
 
-// POST page for updating the item in the db.
+/**
+ * POST page for updating a task. Set a message and return to front pge.
+ */
 router.post('/update/:id', function(req, res, next) {
   let id = req.params.id;
   let item = {
@@ -67,23 +80,45 @@ router.post('/update/:id', function(req, res, next) {
     if (err) {
       // TODO Figure out how to handle session errors more dynamically.
       req.session.error = { error: {msg: err.message} };
-      res.redirect('/');
     } else {
       doc.task = req.body.task;
       doc.prio = req.body.prio;
       doc.save();
       req.session.success = { success: {msg: `Task with id: ${id} updated.`} };
-      res.redirect('/');
     }
+    res.redirect('/');
   })
 });
 
-// Deleting data.
+/**
+ * POST page for deleting a task.
+ */
 router.post('/delete/:id', function(req, res, next) {
   let id = req.params.id;
 
   taskData.findByIdAndRemove(id, function(err) {
     if (err) req.session.error = { error: {msg: err.message} };
+    req.session.success = { success: {msg: `Successfully removed task with id: ${id}.`} };
+    res.redirect('/');
+  })
+});
+
+/**
+ * POST page for completing/uncompleting a task.
+ */
+router.post('/complete/:id', function(req, res, next) {
+  let id = req.params.id;
+
+  taskData.findById(id, function(err, doc) {
+    if (err) {
+      // TODO Figure out how to handle session errors more dynamically.
+      req.session.error = { error: {msg: err.message} };
+    } else {
+      doc.completed = doc.completed ? false : true;
+      let comp = doc.completed ? 'Completed' : 'Uncompleted';
+      doc.save();
+      req.session.success = { success: {msg: `${comp} task with id: ${id}.`} };
+    }
     res.redirect('/');
   })
 });

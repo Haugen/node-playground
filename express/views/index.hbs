@@ -1,4 +1,4 @@
-<h1>{{ title }}</h1>
+<h1>TODO</h1>
 
 {{#each errors}}
   <div class="alert alert-danger">{{ this.msg }}</div>
@@ -8,7 +8,8 @@
   <div class="alert alert-success">{{ this.msg }}</div>
 {{/each}}
 
-{{#each items}}
+<h2>ToDo</h2>
+{{#each uncompleted}}
   <div class="card">
     <div class="card-body">
       {{ this.task }}
@@ -16,6 +17,26 @@
       <a href="/update/{{ this._id }}"><button class="btn btn-primary">Update</button></a>
       <form method="post" action="/delete/{{ this._id}}">
         <button class="btn btn-danger" type="submit">X</button>
+      </form>
+      <form method="post" action="/complete/{{ this._id}}">
+        <button class="btn btn-success" type="submit">Complete</button>
+      </form>
+    </div>
+  </div>
+{{/each}}
+
+<h2>Completed</h2>
+{{#each completed}}
+  <div class="card">
+    <div class="card-body">
+      {{ this.task }}
+      {{ this.prio }}
+      <a href="/update/{{ this._id }}"><button class="btn btn-primary">Update</button></a>
+      <form method="post" action="/delete/{{ this._id}}">
+        <button class="btn btn-danger" type="submit">X</button>
+      </form>
+      <form method="post" action="/complete/{{ this._id}}">
+        <button class="btn btn-success" type="submit">Uncomplete</button>
       </form>
     </div>
   </div>
