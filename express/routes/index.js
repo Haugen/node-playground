@@ -54,10 +54,10 @@ router.post('/insert', function(req, res, next) {
       db.collection('tasks').insertOne(item, function(err, result) {
         assert.equal(null, err);
         client.close();
+        req.session.success = {success: { msg: "Task successfully added." } };
+        res.redirect('/');
       });
     });
-
-    res.redirect('/');
   }
 });
 
