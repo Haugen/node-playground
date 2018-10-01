@@ -104,8 +104,18 @@ router.post('/update/:id', function(req, res, next) {
 });
 
 // Deleting data.
-router.post('/delete', function(req, res, next) {
-
+router.post('/delete/:id', function(req, res, next) {
+  let id = req.params.id;
+  mongo.connect(dbUrl, function(err, client) {
+    assert.equal(null, err);
+    let db = client.db('test');
+    db.collection('tasks').deleteOne({"_id": objectId(id)}, function(err, result) {
+      assert.equal(null, err);
+      client.close();
+      req.session.success = {success: { msg: "Task successfully deleted." } };
+      res.redirect('/');
+    });
+  });
 });
 
 module.exports = router;

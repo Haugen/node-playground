@@ -14,6 +14,9 @@
       {{ this.task }}
       {{ this.prio }}
       <a href="/update/{{ this._id }}"><button class="btn btn-primary">Update</button></a>
+      <form method="post" action="/delete/{{ this._id}}">
+        <button class="btn btn-danger" type="submit">X</button>
+      </form>
     </div>
   </div>
 {{/each}}
