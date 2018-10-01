@@ -6,6 +6,7 @@ var logger = require('morgan');
 var hbs = require('express-handlebars');
 var expressValidator = require('express-validator');
 var expressSession = require('express-session');
+var sassMiddleware = require('node-sass-middleware');
 
 var indexRouter = require('./routes/index');
 
@@ -25,6 +26,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(expressValidator());
 app.use(cookieParser());
+app.use(sassMiddleware({
+  src: path.join(__dirname, 'sass'),
+  dest: path.join(__dirname, 'public/stylesheets'),
+  debug: true,
+  outputStyle: 'compressed',
+  prefix: '/stylesheets'
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressSession({
   secret: 'tobias',
