@@ -85,7 +85,22 @@ router.get('/update/:id', function(req, res, next) {
 
 // POST page for updating the item in the db.
 router.post('/update/:id', function(req, res, next) {
+  let id = req.params.id;
+  let item = {
+    task: req.body.task,
+    prio: req.body.prio
+  }
 
+  mongo.connect(dbUrl, function(err, client) {
+    assert.equal(null, err);
+    let db = client.db('test');
+    db.collection('tasks').updateOne({"_id": objectId(id)}, {$set: item}, function(err, result) {
+      assert.equal(null, err);
+      client.close();
+      req.session.success = {success: { msg: "Task successfully updated." } };
+      res.redirect('/');
+    });
+  });
 });
 
 // Deleting data.
