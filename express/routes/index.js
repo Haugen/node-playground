@@ -49,7 +49,8 @@ router.get('/update/:id', function(req, res, next) {
       req.session.error = { error: {msg: err.message} };
       res.redirect('/');
     } else {
-      res.render('update', { item: doc });
+      let prio = {[doc.prio.toLowerCase()]: true};
+      res.render('update', { item: doc, prio: prio });
     }
   });
 });

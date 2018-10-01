@@ -8,10 +8,9 @@
   <div class="form-group">
     <label for="prio">Prio</label>
     <select class="form-control" name="prio" id="prio">
-      <!-- TODO Fix so that the correct option is filled in. -->
-      <option>Low</option>
-      <option>Medium</option>
-      <option>High</option>
+      <option{{#if prio.low }} selected {{/if}}>Low</option>
+      <option{{#if prio.medium }} selected {{/if}}>Medium</option>
+      <option{{#if prio.high }} selected {{/if}}>High</option>
     </select>
   </div>
   <button class="btn btn-primary" type="submit">Submit</button>
