@@ -1,19 +1,21 @@
 
 <div id="new-task-form">
-  <a class="btn btn-primary rounded-circle" id="open-form">+</a>
+  <div id="open-form">
+    <a class="btn btn-primary rounded-circle">+</a>
+  </div>
   <form action="/insert" method="post">
     <div class="input form-group">
-      <label for="email">Task</label>
+      <label for="email">Task description</label>
       <input class="form-control" type="text" name="task" id="task">
     </div>
     <div class="form-group">
-      <label for="prio">Prio</label>
+      <label for="prio">Priority</label>
       <select class="form-control" name="prio" id="prio">
         <option>Low</option>
         <option>Medium</option>
         <option>High</option>
       </select>
     </div>
-    <button class="btn btn-primary" type="submit">Submit</button>
+    <button class="btn btn-primary" type="submit">Add task</button>
   </form>
 </div>

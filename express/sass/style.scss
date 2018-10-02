@@ -8,7 +8,7 @@ $primary: #FE5E5C;
 @import "node_modules/bootstrap/scss/bootstrap";
 
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px 'Montserrat', "Lucida Grande", Helvetica, Arial, sans-serif;
   padding-top: 30px;
   padding-bottom: 75px;
 }
@@ -18,9 +18,17 @@ body {
   background: $primary;
   position: fixed;
 }
+.site-header {
+  margin-bottom: 30px;
+}
 hr {
   margin-left: -15px;
   margin-right: -15px;
+}
+.alert-success {
+  position: fixed;
+  top: 34px;
+  right: 30px;
 }
 
 // The form for adding a task.
@@ -29,17 +37,23 @@ hr {
   bottom: -210px;
   width: 100%;
   padding: 40px 15px 15px 15px;
-  background: #eee;
+  background: $gray-100;
+  border-top: 1px solid darken($gray-100, 5%);
 
   #open-form {
     position: absolute;
     top: -24px;
     left: 50%;
-    width: 50px;
-    height: 50px;
     font-size: 32px;
-    line-height: 30px;
     transform: translateX(-50%);
+
+    a {
+      color: $white;
+      width: 50px;
+      height: 50px;
+      font-size: 36px;
+      line-height: 35px;
+    }
   }
 }
 
@@ -51,7 +65,7 @@ hr {
   }
 
   .task-body{
-    //border-right: 3px solid #eee;
+    border-right: 3px solid #eee;
 
     &:hover {
       cursor: pointer;
@@ -94,7 +108,7 @@ hr {
   width: 28px;
   height: 28px;
   outline: none;
-  border: 2px solid;
+  border: 1px solid;
   size: 10px;
 }
 .uncompleted .toggle-complete {

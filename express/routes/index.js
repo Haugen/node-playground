@@ -13,6 +13,18 @@ var taskDataSchema = new mongoose.Schema({
 
 var taskData = mongoose.model('taskData', taskDataSchema);
 
+// Date stuff. Move elsewhere? Yeah, it can't be here, obviously. Slowing down
+// everything and creating several new Date objects on every request...
+// No bueno! (Now in an if statement, but not sure if that does the trick.)
+var days = ['Sundat', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+if (!dateDay && !dateDate && !dateMonth && !dayMonth) {
+  var dateDay = new Date().getDay();
+  var dateDate = new Date().getDate();
+  var dateMonth = new Date().getMonth();
+  var dayMonth = `${dateDate} ${months[dateMonth]}`;
+}
+
 /**
  * GET the home page where we list all the tasks.
  */
@@ -22,6 +34,8 @@ router.get('/', function(req, res, next) {
     taskData.find({ completed: true })
   ]).then(function([ uncompleted, completed ]) {
     res.render('index', {
+      titleDay: days[dateDay],
+      titleDate: dayMonth,
       completed: completed,
       uncompleted: uncompleted,
       errors: req.session.error,
@@ -45,6 +59,7 @@ router.post('/insert', function(req, res, next) {
   data.save(function(err) {
     // TODO Figure out how to handle session errors more dynamically.
     if (err) req.session.error = { error: {msg: err.errors.task.message} };
+    if (!err) req.session.success = { success: {msg: "Task added."} };
     res.redirect('/');
   });
 });
@@ -84,7 +99,7 @@ router.post('/update/:id', function(req, res, next) {
       doc.task = req.body.task;
       doc.prio = req.body.prio;
       doc.save();
-      req.session.success = { success: {msg: `Task with id: ${id} updated.`} };
+      req.session.success = { success: {msg: 'Task updated.'} };
     }
     res.redirect('/');
   })
@@ -98,7 +113,7 @@ router.post('/delete/:id', function(req, res, next) {
 
   taskData.findByIdAndRemove(id, function(err) {
     if (err) req.session.error = { error: {msg: err.message} };
-    req.session.success = { success: {msg: `Successfully removed task with id: ${id}.`} };
+    req.session.success = { success: {msg: 'Task removed.'} };
     res.redirect('/');
   })
 });
@@ -115,9 +130,9 @@ router.post('/complete/:id', function(req, res, next) {
       req.session.error = { error: {msg: err.message} };
     } else {
       doc.completed = doc.completed ? false : true;
-      let comp = doc.completed ? 'Completed' : 'Uncompleted';
+      let comp = doc.completed ? 'done' : 'undone';
       doc.save();
-      req.session.success = { success: {msg: `${comp} task with id: ${id}.`} };
+      req.session.success = { success: {msg: `Task ${comp}.`} };
     }
     res.redirect('/');
   })

@@ -14,9 +14,13 @@ $(function() {
     $('body').toggleClass('form-open');
     let position = $('body').hasClass('form-open') ? '0' : '-210px';
     $('#new-task-form').animate({bottom: position}, 300, function() {
-      let buttonIcon = $('#open-form').html();
-      buttonIcon = buttonIcon == '+' ? '-' : '+';
-      $('#open-form').text(buttonIcon);
+      let buttonIcon = $('#open-form a').html() == '+' ? '-' : '+';
+      $('#open-form a').text(buttonIcon);
     });
   })
+
+  // Fade out the success messages.
+  setTimeout(function () {
+    $('.alert-success').fadeOut(800);
+  }, 1500);
 });
