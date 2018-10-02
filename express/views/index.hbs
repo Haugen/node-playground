@@ -7,38 +7,48 @@
   <div class="alert alert-success">{{ this.msg }}</div>
 {{/each}}
 
-<h2>ToDo</h2>
 {{#each uncompleted}}
-  <div class="card mb-3 prio-{{ this.prio }}">
-    <div class="card-body">
+<div class="row task mb-3 prio-{{ this.prio }}">
+  <div class="task-complete col-3">
+    <form method="post" action="/complete/{{ this._id}}">
+      <button class="btn btn-success" type="submit">Complete</button>
+    </form>
+  </div>
+  <div class="task-body col-9">
+    <div class="task-text">
       {{ this.task }}
-      {{ this.prio }}
-      <a href="/update/{{ this._id }}"><button class="btn btn-primary">Update</button></a>
+    </div>
+    <div class="task-footer d-flex">
+      <a href="/update/{{ this._id }}" class="btn btn-link">Update</a>
       <form method="post" action="/delete/{{ this._id}}">
-        <button class="btn btn-danger" type="submit">X</button>
-      </form>
-      <form method="post" action="/complete/{{ this._id}}">
-        <button class="btn btn-success" type="submit">Complete</button>
+        <button class="btn btn-link" type="submit">Delete</button>
       </form>
     </div>
   </div>
+</div>
 {{/each}}
 
-<h2>Completed</h2>
+<hr />
+
 {{#each completed}}
-  <div class="card mb-3 prio-{{ this.prio }}">
-    <div class="card-body">
+<div class="row task mb-3 prio-{{ this.prio }}">
+  <div class="task-complete col-3">
+    <form method="post" action="/complete/{{ this._id}}">
+      <button class="btn btn-success" type="submit">Uncomplete</button>
+    </form>
+  </div>
+  <div class="task-body col-9">
+    <div class="task-text">
       {{ this.task }}
-      {{ this.prio }}
-      <a href="/update/{{ this._id }}"><button class="btn btn-primary">Update</button></a>
+    </div>
+    <div class="task-footer d-flex">
+      <a href="/update/{{ this._id }}" class="btn btn-link">Update</a>
       <form method="post" action="/delete/{{ this._id}}">
-        <button class="btn btn-danger" type="submit">X</button>
-      </form>
-      <form method="post" action="/complete/{{ this._id}}">
-        <button class="btn btn-success" type="submit">Uncomplete</button>
+        <button class="btn btn-link" type="submit">Delete</button>
       </form>
     </div>
   </div>
+</div>
 {{/each}}
 
 <form action="/insert" method="post">
