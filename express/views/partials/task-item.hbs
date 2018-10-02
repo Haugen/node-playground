@@ -1,18 +1,18 @@
 
-<div class="d-flex task py-2 my-1 {{ completed }} prio-{{#toLower}}{{ task.prio }}{{/toLower}}">
-  <div class="task-complete mr-3">
+<div class="task py-2 {{ completed }} prio-{{#toLower}}{{ task.prio }}{{/toLower}}">
+  <div class="task-complete mr-3 float-left">
     <form method="post" action="/complete/{{ task._id}}">
       <button class="btn toggle-complete rounded-circle" type="submit"></button>
     </form>
   </div>
-  <div class="task-body">
+  <div class="task-body ml-5">
     <div class="task-text">
       {{ task.task }}
     </div>
-    <div class="task-footer d-none">
-      <a href="/update/{{ task._id }}" class="btn btn-link">Update</a>
-      <form method="post" action="/delete/{{ task._id}}">
-        <button class="btn btn-link" type="submit">Delete</button>
+    <div class="task-footer small clearfix">
+      <a href="/update/{{ task._id }}" class="btn btn-sm btn-link float-left">Edit</a>
+      <form class="float-left" method="post" action="/delete/{{ task._id}}">
+        <button class="btn btn-sm btn-link" type="submit">Delete</button>
       </form>
     </div>
   </div>

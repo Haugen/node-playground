@@ -1,0 +1,19 @@
+
+<div id="new-task-form">
+  <a class="btn btn-primary rounded-circle" id="open-form">+</a>
+  <form action="/insert" method="post">
+    <div class="input form-group">
+      <label for="email">Task</label>
+      <input class="form-control" type="text" name="task" id="task">
+    </div>
+    <div class="form-group">
+      <label for="prio">Prio</label>
+      <select class="form-control" name="prio" id="prio">
+        <option>Low</option>
+        <option>Medium</option>
+        <option>High</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </form>
+</div>

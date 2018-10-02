@@ -9,7 +9,8 @@ $primary: #FE5E5C;
 
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  padding-top: 50px;
+  padding-top: 30px;
+  padding-bottom: 75px;
 }
 .fixed-top {
   width: 100%;
@@ -22,30 +23,68 @@ hr {
   margin-right: -15px;
 }
 
+// The form for adding a task.
+#new-task-form {
+  position: fixed;
+  bottom: -210px;
+  width: 100%;
+  padding: 40px 15px 15px 15px;
+  background: #eee;
+
+  #open-form {
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 32px;
+    line-height: 30px;
+    transform: translateX(-50%);
+  }
+}
+
 // Styling for a task element
 .task {
-  border-right: 3px solid #eee;
-
   .task-text {
     min-height: 28px;
     line-height: 28px;
   }
 
+  .task-body{
+    //border-right: 3px solid #eee;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   .task-footer {
     display: none;
+
+    a {
+      margin-left: -9px;
+    }
+  }
+
+  &.open {
+    margin-left: -15px;
+    margin-right: -15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background: darken($white, 2%);
   }
 }
 .completed .task-text {
   @extend .text-muted;
   text-decoration: line-through;
 }
-.prio-low {
+.prio-low .task-body {
   border-right-color: $success;
 }
-.prio-medium {
+.prio-medium .task-body {
   border-right-color: $warning;
 }
-.prio-high {
+.prio-high .task-body {
   border-right-color: $danger;
 }
 
