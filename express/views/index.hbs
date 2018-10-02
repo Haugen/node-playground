@@ -8,13 +8,13 @@
 {{/each}}
 
 {{#each uncompleted}}
-  {{> task-item task=this complete='Complete' }}
+  {{> task-item task=this completed='uncompleted' }}
 {{/each}}
 
 <hr />
 
 {{#each completed}}
-  {{> task-item task=this complete='Uncomplete' }}
+  {{> task-item task=this completed='completed' }}
 {{/each}}
 
 <form action="/insert" method="post">

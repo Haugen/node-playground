@@ -22,15 +22,49 @@ hr {
   margin-right: -15px;
 }
 
-.card {
-  border-left: 4px solid #eee;
+// Styling for a task element
+.task {
+  border-right: 3px solid #eee;
+
+  .task-text {
+    min-height: 28px;
+    line-height: 28px;
+  }
+
+  .task-footer {
+    display: none;
+  }
+}
+.completed .task-text {
+  @extend .text-muted;
+  text-decoration: line-through;
 }
 .prio-low {
-  border-left-color: $success;
+  border-right-color: $success;
 }
 .prio-medium {
-  border-left-color: $warning;
+  border-right-color: $warning;
 }
 .prio-high {
-  border-left-color: $danger;
+  border-right-color: $danger;
+}
+
+// Complete button
+.toggle-complete {
+  display: block;
+  width: 28px;
+  height: 28px;
+  outline: none;
+  border: 2px solid;
+  size: 10px;
+}
+.uncompleted .toggle-complete {
+  @extend .btn-outline-primary;
+}
+.completed .toggle-complete {
+  @extend .btn-primary;
+}
+.toggle-complete:active,
+.toggle-complete:focus {
+  outline: none;
 }
