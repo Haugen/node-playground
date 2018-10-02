@@ -7,6 +7,8 @@ var hbs = require('express-handlebars');
 var expressValidator = require('express-validator');
 var expressSession = require('express-session');
 var sassMiddleware = require('node-sass-middleware');
+var handlebars = require('handlebars');
+var registrar = require('handlebars-registrar');
 
 var indexRouter = require('./routes/index');
 
@@ -56,6 +58,15 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+// Register helpers for handlebars.
+registrar(handlebars, {
+  helpers: {
+    toLower: function(text) {
+      return text.fn(this).toLowerCase();
+    }
+  }
 });
 
 module.exports = app;

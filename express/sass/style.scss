@@ -25,12 +25,12 @@ hr {
 .card {
   border-left: 4px solid #eee;
 }
-.prio-Low {
+.prio-low {
   border-left-color: $success;
 }
-.prio-Medium {
+.prio-medium {
   border-left-color: $warning;
 }
-.prio-High {
+.prio-high {
   border-left-color: $danger;
 }

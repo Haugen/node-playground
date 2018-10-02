@@ -1,0 +1,19 @@
+
+<div class="row task mb-3 prio-{{#toLower}}{{ task.prio }}{{/toLower}}">
+  <div class="task-complete col-3">
+    <form method="post" action="/complete/{{ task._id}}">
+      <button class="btn btn-success" type="submit">{{ complete }}</button>
+    </form>
+  </div>
+  <div class="task-body col-9">
+    <div class="task-text">
+      {{ task.task }}
+    </div>
+    <div class="task-footer d-flex">
+      <a href="/update/{{ task._id }}" class="btn btn-link">Update</a>
+      <form method="post" action="/delete/{{ task._id}}">
+        <button class="btn btn-link" type="submit">Delete</button>
+      </form>
+    </div>
+  </div>
+</div>
